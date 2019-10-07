@@ -28,7 +28,7 @@ resource "digitalocean_droplet" "cloudbox" {
   name   = "demo.${var.cloudbox_name}.${var.cloudbox_domain}"
   region = "ams3"
   size   = "s-1vcpu-3gb"
-  ssh_keys = digitalocean_ssh_key.cloudbox
+  ssh_keys = digitalocean_ssh_key.cloudbox.id
   lifecycle {
     ignore_changes = [
       ssh_keys,

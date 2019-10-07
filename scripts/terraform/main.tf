@@ -4,11 +4,7 @@ provider "digitalocean" {
 
 variable cloudbox_domain {}
 
-variable cloudbox_image {}
-
 variable cloudbox_name {}
-
-variable cloudbox_number {}
 
 variable cloudbox_build_key {
   default = false

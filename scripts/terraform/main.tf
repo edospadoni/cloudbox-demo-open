@@ -21,8 +21,8 @@ resource "random_uuid" "cloudbox" {
 }
 
 resource "digitalocean_ssh_key" "cloudbox" {
-  name       = "cloudbox_deploy_key_${random_uuid.cloudbox[0].result}"
-  public_key = tls_private_key.cloudbox[0].public_key_openssh
+  name       = "cloudbox_deploy_key_${random_uuid.cloudbox.result}"
+  public_key = tls_private_key.cloudbox.public_key_openssh
 }
 
 resource "digitalocean_droplet" "cloudbox" {
@@ -73,11 +73,11 @@ resource "digitalocean_record" "nextcloud" {
 }
 
 output cloudbox_ssh_key_id {
-  value = digitalocean_ssh_key.cloudbox[0].id
+  value = digitalocean_ssh_key.cloudbox.id
 }
 
 output cloudbox_ssh_private_key {
-  value = tls_private_key.cloudbox[0].private_key_pem
+  value = tls_private_key.cloudbox.private_key_pem
   sensitive = true
 }
 

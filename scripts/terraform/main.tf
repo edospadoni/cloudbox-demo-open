@@ -13,11 +13,9 @@ variable cloudbox_build_key {
 resource "tls_private_key" "cloudbox" {
   algorithm   = "ECDSA"
   ecdsa_curve = "P384"
-  count       = var.cloudbox_build_key ? 1 : 0
 }
 
 resource "random_uuid" "cloudbox" {
-  count = var.cloudbox_build_key ? 1 : 0
 }
 
 resource "digitalocean_ssh_key" "cloudbox" {

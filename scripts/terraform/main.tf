@@ -10,10 +10,6 @@ variable cloudbox_build_key {
   default = false
 }
 
-data "digitalocean_ssh_key" "cloudbox_management" {
-  name = "Cloud Box Management Key"
-}
-
 resource "tls_private_key" "cloudbox" {
   algorithm   = "ECDSA"
   ecdsa_curve = "P384"
@@ -27,7 +23,6 @@ resource "random_uuid" "cloudbox" {
 resource "digitalocean_ssh_key" "cloudbox" {
   name       = "cloudbox_deploy_key_${random_uuid.cloudbox[0].result}"
   public_key = tls_private_key.cloudbox[0].public_key_openssh
-  count      = var.cloudbox_build_key ? 1 : 0
 }
 
 resource "digitalocean_droplet" "cloudbox" {
@@ -35,11 +30,7 @@ resource "digitalocean_droplet" "cloudbox" {
   name   = "demo.${var.cloudbox_name}.${var.cloudbox_domain}"
   region = "ams3"
   size   = "s-1vcpu-3gb"
-  ssh_keys = compact([
-    var.cloudbox_build_key ? digitalocean_ssh_key.cloudbox[0].id : "",
-    data.digitalocean_ssh_key.cloudbox_management.id
-  ])
-
+  ssh_keys = digitalocean_ssh_key.cloudbox
   lifecycle {
     ignore_changes = [
       ssh_keys,
